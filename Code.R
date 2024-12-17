@@ -56,6 +56,7 @@ years_to_display <- as.character(2011:2020)
 # 3. Import Data 
 # ============================
 
+# Check if the data file exists before reading
 if (!file.exists(file_path)) {
   stop(paste("File not found at path:", file_path))
 }
@@ -66,26 +67,35 @@ df <- read_excel(file_path, sheet = excel_sheet, skip = skip_rows)
 # 4. Wrangle Data 
 # ============================
 
+# Clean and select relevant columns; remove unnecessary columns (3rd and 7th)
 df_cleaned <- df %>% 
   select(-3, -7) %>%
   slice(row_slice_start:row_slice_end)
 
+# Rename columns for clarity
 colnames(df_cleaned) <- c("Year", "IMD_quintile", "Females", "Female_LCI", "Female_UCI", "Males", "Male_LCI", "Male_UCI")
 
+# Transform data from wide to long format
 df_long <- df_cleaned %>% 
   pivot_longer(cols = c("Females", "Males"), 
                names_to = "Gender", 
                values_to = "Rate")
 
+# Convert specific columns to numeric to ensure proper calculations
 cols_to_convert <- c("Female_LCI", "Female_UCI", "Male_LCI", "Male_UCI", "Rate")
 df_long[cols_to_convert] <- lapply(df_long[cols_to_convert], as.numeric)
 
+# Convert Year to a factor for discrete x-axis labeling
 df_long$Year <- factor(df_long$Year)
+
+# Filter out any rows where Year is NA (potentially empty rows in the data)
 df_long <- df_long %>% filter(!is.na(Year))
 
+# Filter data for only the 1st and 5th IMD quintiles (most and least deprived)
 df_long_filtered <- df_long %>% 
   filter(IMD_quintile %in% c(1, 5))
 
+# Create a labeling column combining IMD quintile and Gender
 df_long_filtered <- df_long_filtered %>% 
   mutate(Label = case_when(
     IMD_quintile == 1 & Gender == "Females" ~ "Q1 - Female",
@@ -109,6 +119,7 @@ if (any(df_long_filtered$Rate < 0, na.rm = TRUE)) {
 # 5. Create initial ggplot 
 # ============================
 
+# Create a basic line plot using ggplot2
 p <- ggplot(df_long_filtered, aes(x = Year, 
                                   y = Rate, 
                                   color = Label,  
@@ -137,6 +148,7 @@ ggsave(static_plot_path, plot = p, width = 10, height = 6)
 # 6. Convert to Interactive Plotly 
 # ============================
 
+#Convert the ggplot to an interactive Plotly
 interactive_plot <- ggplotly(p, tooltip = "text")
 
 # Add title, subtitle, and caption as plotly annotations
