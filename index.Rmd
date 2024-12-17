@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Project Background
 Alcohol-specific mortality is a significant public health concern, with profound social and economic implications. Alcohol-related deaths are often linked to chronic conditions such as liver disease, alcohol poisoning, and certain cancers. However, these mortality rates are not evenly distributed across the population. Socioeconomic deprivation plays a critical role, with individuals living in more deprived areas experiencing disproportionately higher mortality rates than those in more affluent areas. This disparity may reflect broader health inequalities, driven by differences in access to healthcare, education, employment, and living conditions. Gender differences are also evident, with men typically experiencing higher alcohol-specific mortality rates than women, though the extent of this gap may vary by deprivation level. 
+
 This project aims to develop a visualisation which examines trends from 2011 to 2020, highlighting differences in alcohol-specific mortality between the most and least deprived groups for both males and females.
 
 ## Research Question 
