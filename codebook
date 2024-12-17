@@ -1,0 +1,23 @@
+PSY6422 Module Project
+
+This data analysis project aims to compare alcohol specific mortality rates by deprivation quitile and gender. 
+
+The raw data was obtained from the Office for National Statistics.
+
+The files in this project are:
+
+  > data
+  - stores the raw data used for this project
+  
+  > plots
+    - stores all plots produced in data analysis
+    
+  > index.Rmd 
+    - The RMarkdown created for this project for knitting to html
+    
+  > index.html
+    - The html file generated for this project; the webpage
+    
+  > .Rproj
+    - The R project file for this complete project
+    
